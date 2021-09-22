@@ -281,6 +281,10 @@ public:
 
     double getTimestampLatency(int32_t streamIndex);
 
+    void setCpuAffinityMask(uint32_t mask) {
+        oboeCallbackProxy.setCpuAffinityMask(mask);
+    }
+
 protected:
     std::shared_ptr<oboe::AudioStream> getInputStream();
     std::shared_ptr<oboe::AudioStream> getOutputStream();
@@ -708,7 +712,8 @@ private:
 };
 
 /**
- * Switch between various
+ * Global context for native tests.
+ * Switch between various ActivityContexts.
  */
 class NativeAudioContext {
 public:
@@ -766,7 +771,6 @@ public:
     ActivityDataPath             mActivityDataPath;
     ActivityTestDisconnect       mActivityTestDisconnect;
 
-
 private:
 
     // WARNING - must match definitions in TestAudioActivity.java
@@ -785,7 +789,6 @@ private:
 
     ActivityType                 mActivityType = ActivityType::Undefined;
     ActivityContext             *currentActivity = &mActivityTestOutput;
-
 };
 
 #endif //NATIVEOBOE_NATIVEAUDIOCONTEXT_H
