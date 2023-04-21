@@ -487,6 +487,7 @@ Result AudioStreamAAudio::requestStart() {
             setDataCallbackEnabled(true);
         }
         mStopThreadAllowed = true;
+        closePerformanceHint();
         return static_cast<Result>(mLibLoader->stream_requestStart(stream));
     } else {
         return Result::ErrorClosed;
