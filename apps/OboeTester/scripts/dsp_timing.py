@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+
 # Run OboeTester with progressive timing changes
 # to measure the DSP timing profile.
 # Print a CSV table of offsets and glitch counts.
@@ -38,7 +39,7 @@ kOffsetMin = 0000
 kOffsetMax = 4000
 kOffsetIncrement = 100
 kOutputFileBase = "/sdcard/dsp_timing_"
-gOutputFile = kOutputFileBase + "now.txt"
+gOutputFile = f"{kOutputFileBase}now.txt"
 
 def launchLatencyTest():
     command = ["adb", "shell", "am", \
@@ -71,9 +72,7 @@ def setOutputOffset(offset):
 
 def getOutputOffset():
     offsetText = getAndroidProperty(kPropertyOutputOffset).strip()
-    if len(offsetText) == 0:
-        return 0;
-    return int(offsetText)
+    return 0 if len(offsetText) == 0 else int(offsetText)
 
 def loadNameValuePairsFromFile(filename):
     myvars = {}
@@ -208,11 +207,7 @@ def isMMapSupported():
     return True
 
 def isTimingSeriesSupported():
-    if not isRunningAsRoot():
-        return False
-    if not isMMapSupported():
-        return False
-    return True
+    return False if not isRunningAsRoot() else bool(isMMapSupported())
 
 def main():
     global gOutputFile
